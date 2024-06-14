@@ -1,32 +1,30 @@
 {
   "name": "reComponentsLib",
-  "displayName": "Re Components Lib",
-  "description": "",
-  "version": "0.0.1",
+  "displayName": "SI Components Lib ",
+  "description": "Re Components Library for VS Code",
+  "version": "0.0.2",
   "publisher": "scarlet-ivory",
   "engines": {
     "vscode": "^1.90.0"
   },
   "repository": {
-    "url": "https://github.com/scarletIvory/funcDelete/upload/main"
+    "url": "https://github.com/scarletIvory/ReComponentsLib"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onCommand:reComponentsLib.helloWorld"
-  ],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "reComponentsLib.helloWorld",
-        "title": "Hello World"
+        "command": "reComponentsLib.deleteFunc",
+        "title": "Delete Function"
       }
     ],
     "keybindings": [
       {
-        "command": "reComponentsLib.helloWorld",
+        "command": "reComponentsLib.deleteFunc",
         "key": "ctrl+f5",
         "when": "editorTextFocus",
         "mac": "cmd+f5"
