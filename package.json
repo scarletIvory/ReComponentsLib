@@ -1,8 +1,8 @@
 {
-  "name": "reComponentsLib",
-  "displayName": "SI Components Lib ",
+  "name": "re-components-lib",
+  "displayName": "SIRe Components Lib ",
   "description": "Re Components Library for VS Code",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "publisher": "scarlet-ivory",
   "engines": {
     "vscode": "^1.90.0"
@@ -20,6 +20,10 @@
       {
         "command": "reComponentsLib.deleteFunc",
         "title": "Delete Function"
+      },
+      {
+        "command": "reComponentsLib.createComponent",
+        "title": "Create Component"
       }
     ],
     "keybindings": [
@@ -28,8 +32,30 @@
         "key": "ctrl+f5",
         "when": "editorTextFocus",
         "mac": "cmd+f5"
+      },
+      {
+        "command": "reComponentsLib.createComponent",
+        "key": "ctrl+f6",
+        "when": "explorerResourceIsFolder",
+        "mac": "cmd+f6"
       }
-    ]
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "reComponentsLib.deleteFunc",
+          "when": "editorTextFocus",
+          "group": "4_execution"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "reComponentsLib.createComponent",
+          "when": "explorerResourceIsFolder",
+          "group": "4_new"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -42,7 +68,7 @@
   "devDependencies": {
     "@types/babel__traverse": "^7.20.6",
     "@types/mocha": "^10.0.6",
-    "@types/node": "18.x",
+    "@types/node": "^18.19.37",
     "@types/vscode": "^1.90.0",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.11.0",
@@ -54,6 +80,8 @@
   },
   "dependencies": {
     "@babel/parser": "^7.24.7",
-    "@babel/traverse": "^7.24.7"
+    "@babel/traverse": "^7.24.7",
+    "@vue/compiler-sfc": "^3.4.29",
+    "ts-node": "^10.9.2"
   }
 }

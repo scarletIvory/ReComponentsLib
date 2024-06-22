@@ -2,13 +2,13 @@
  * @Author: TuWenxuan
  * @Date: 2024-06-12 14:51:48
  * @LastEditors: TuWenxuan
- * @LastEditTime: 2024-06-14 10:42:38
- * @FilePath: /helloworld/test/extension.test.js
+ * @LastEditTime: 2024-06-19 10:05:23
+ * @FilePath: /testcode1/test/extension.test.js
  * @Description:
  *
  */
 import { test, expect } from 'vitest';
-import { getFuncNode } from '../src/functionNode';
+import { getFuncNode } from '../src/demo/functionNode';
 test('init', () => {
     const code = `
         const read = ()=>{
