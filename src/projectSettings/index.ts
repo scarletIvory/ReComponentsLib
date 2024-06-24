@@ -1,3 +1,12 @@
+/*
+ * @Author: TuWenxuan
+ * @Date: 2024-06-24 17:52:04
+ * @LastEditors: TuWenxuan
+ * @LastEditTime: 2024-06-24 19:01:28
+ * @FilePath: /testcode1/src/projectSettings/index.ts
+ * @Description: 
+ * 
+ */
 import vue2Setting from "./vue2Setting";
 import vue3Setting from "./vue3Setting";
 import * as vscode from "vscode";
@@ -7,7 +16,7 @@ import * as fs from "fs";
 export function generateSettings(path: string): Promise<string> {
   return new Promise(async (resolve, reject) => {
     try {
-      createVueSettingByVersion(path, reject);
+      await createVueSettingByVersion(path, reject);
       resolve("项目初始化成功！");
     }
     catch (e) {

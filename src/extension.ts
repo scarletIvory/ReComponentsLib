@@ -1,16 +1,15 @@
 /*
  * @Author: TuWenxuan
  * @Date: 2024-06-13 17:55:19
- * @LastEditors: tuwenxuan
- * @LastEditTime: 2024-06-23 18:13:17
- * @FilePath: \ReComponentsLib\src\extension.ts
+ * @LastEditors: TuWenxuan
+ * @LastEditTime: 2024-06-24 18:50:58
+ * @FilePath: /testcode1/src/extension.ts
  * @Description: 
  * 
  */
 import * as vscode from "vscode";
 import { getDeleteFunctionNode } from "./handlers";
 import { createComponentTemplate } from "./vue-templates";
-import { register } from 'ts-node';
 import { generateSettings } from "./projectSettings";
 
 
@@ -18,13 +17,6 @@ import { generateSettings } from "./projectSettings";
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-  register({
-    transpileOnly: true,
-    compilerOptions: {
-      module: "ESNext",
-      target: "ESNext",
-    }
-  });
 	vscode.window.showInformationMessage('Welcome to use SI Components Lib!');
 	const commandDelete = 'reComponentsLib.deleteFunc';
 	const commandCreate = 'reComponentsLib.createComponent';

@@ -97,7 +97,7 @@ const tsConfig = `{
 const viteConfig = `import vue from '@vitejs/plugin-vue';
 import { ConfigEnv } from 'vite';
 import { UserConfigExport } from 'vite';
-import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';s
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import Components from 'unplugin-vue-components/vite';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
@@ -139,7 +139,7 @@ export default ({ mode, command }: ConfigEnv): UserConfigExport => {
           entryFileNames: 'static/js/[name]-[hash].js',
           assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
           manualChunks(id, { getModuleInfo }) {
-            const reg = /(.*)\/src\/components\/(.*)/
+            const reg = /(.*)\\/src\\/components\\/(.*)/
             if (reg.test(id)) {
               const importersLen = getModuleInfo(id)?.importers.length;
               // 被多处引用
