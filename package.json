@@ -23,7 +23,27 @@
       },
       {
         "command": "reComponentsLib.createComponent",
-        "title": "Create Component"
+        "title": "All"
+      },
+      {
+        "command": "reComponentsLib.setProject",
+        "title": "Set Project"
+      },
+      {
+        "command": "reComponentsLib.createReTable",
+        "title": "ReTable"
+      },
+      {
+        "command": "reComponentsLib.createReDialog",
+        "title": "ReDialog"
+      },
+      {
+        "command": "reComponentsLib.createReTitleTab",
+        "title": "ReTitleTab"
+      },
+      {
+        "command": "reComponentsLib.createReSearchBar",
+        "title": "ReSearchBar"
       }
     ],
     "keybindings": [
@@ -38,6 +58,12 @@
         "key": "ctrl+f6",
         "when": "explorerResourceIsFolder",
         "mac": "cmd+f6"
+      },
+      {
+        "command": "reComponentsLib.setProject",
+        "key": "ctrl+f7",
+        "when": "explorerResourceIsFolder",
+        "mac": "cmd+f7"
       }
     ],
     "menus": {
@@ -50,12 +76,50 @@
       ],
       "explorer/context": [
         {
-          "command": "reComponentsLib.createComponent",
+          "submenu": "createComponent",
+          "when": "explorerResourceIsFolder",
+          "group": "4_new"
+        },
+        {
+          "command": "reComponentsLib.setProject",
           "when": "explorerResourceIsFolder",
           "group": "4_new"
         }
+      ],
+      "createComponent": [
+        {
+          "command": "reComponentsLib.createComponent",
+          "title": "All",
+          "group": "1_new"
+        },
+        {
+          "command": "reComponentsLib.createReTable",
+          "title": "ReTable",
+          "group": "2_new"
+        },
+        {
+          "command": "reComponentsLib.createReDialog",
+          "title": "ReDialog",
+          "group": "2_new"
+        },
+        {
+          "command": "reComponentsLib.createReTitleTab",
+          "title": "ReTitleTab",
+          "group": "2_new"
+        },
+        {
+          "command": "reComponentsLib.createReSearchBar",
+          "title": "ReSearchBar",
+          "group": "2_new"
+        }
       ]
-    }
+    },
+    "submenus": [
+      {
+        "id": "createComponent",
+        "label": "Create Component"
+      }
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

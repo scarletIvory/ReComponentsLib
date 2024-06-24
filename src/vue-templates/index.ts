@@ -1,9 +1,9 @@
 /*
  * @Author: TuWenxuan
  * @Date: 2024-06-19 11:38:50
- * @LastEditors: TuWenxuan
- * @LastEditTime: 2024-06-20 15:56:42
- * @FilePath: /testcode1/src/vue-templates/index.ts
+ * @LastEditors: tuwenxuan
+ * @LastEditTime: 2024-06-23 17:04:55
+ * @FilePath: \ReComponentsLib\src\vue-templates\index.ts
  * @Description: 
  * 
  */
@@ -11,9 +11,9 @@ import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 import Vue2Templates from "./vue2";
-import Vue3Templates from "./vue3";
+import { generateVue3Template } from "./vue3";
 
-export const createComponentTemplate = (uri: vscode.Uri, context: vscode.ExtensionContext): Promise<string> => {
+export const createComponentTemplate = (uri: vscode.Uri, name: string = 'all', context?: vscode.ExtensionContext): Promise<string> => {
   return new Promise (async (resolve, reject) => {
     try {
       const path = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
@@ -24,7 +24,7 @@ export const createComponentTemplate = (uri: vscode.Uri, context: vscode.Extensi
         return;
       }
       const selectPath = uri.fsPath;
-      await createVueTempByVersion(path, selectPath, reject);
+      await createVueTempByVersion(name, path, selectPath, reject);
       resolve("success");
     }
     catch (e) {
@@ -34,6 +34,7 @@ export const createComponentTemplate = (uri: vscode.Uri, context: vscode.Extensi
 };
 
 const createVueTempByVersion = async (
+  name: string,
   rootPath: string, 
   selectPath: string, 
   reject: (reason?: any) => void): Promise<string | undefined> => 
@@ -49,7 +50,7 @@ const createVueTempByVersion = async (
 
     if (majorVersion >= 3) {
       vscode.window.showInformationMessage(`Vue version is ${vueVersion} which is greater than or equal to 3`);
-      createVue3Template(selectPath, reject);
+      createVue3Template(selectPath, name, reject);
     } else {
       createVue2Template(selectPath, reject);
     }
@@ -74,9 +75,9 @@ const createVue2Template = (selectPath: string, reject: (reason?: any) => void) 
   });
 };
 
-const createVue3Template = (selectPath: string, reject: (reason?: any) => void) => {
-  console.log(Vue3Templates);
-  Vue3Templates.forEach((template) => {
+const createVue3Template = (selectPath: string, name: string, reject: (reason?: any) => void) => {
+  const vue3Templates = generateVue3Template(name);
+  vue3Templates.forEach((template) => {
     const indexPath = `${selectPath}/${template.path}/${template.name}`;
     const indexCode = template.template;
     if(!fs.existsSync(indexPath)) {

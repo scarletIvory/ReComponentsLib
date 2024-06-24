@@ -1,9 +1,9 @@
 /*
  * @Author: TuWenxuan
  * @Date: 2024-06-13 17:55:19
- * @LastEditors: TuWenxuan
- * @LastEditTime: 2024-06-21 16:20:05
- * @FilePath: /testcode1/src/extension.ts
+ * @LastEditors: tuwenxuan
+ * @LastEditTime: 2024-06-23 18:13:17
+ * @FilePath: \ReComponentsLib\src\extension.ts
  * @Description: 
  * 
  */
@@ -11,6 +11,7 @@ import * as vscode from "vscode";
 import { getDeleteFunctionNode } from "./handlers";
 import { createComponentTemplate } from "./vue-templates";
 import { register } from 'ts-node';
+import { generateSettings } from "./projectSettings";
 
 
 
@@ -27,6 +28,13 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.window.showInformationMessage('Welcome to use SI Components Lib!');
 	const commandDelete = 'reComponentsLib.deleteFunc';
 	const commandCreate = 'reComponentsLib.createComponent';
+  const commandSet = 'reComponentsLib.setProject';
+  const commandCreateSFC = [
+    'ReTable',
+    'ReDialog',
+    'ReTitleTab',
+    'ReSearchBar'
+  ];
 	const disposableDelete = vscode.commands.registerCommand(commandDelete, () => {
 		try {
       deleteFunction();
@@ -35,14 +43,40 @@ export function activate(context: vscode.ExtensionContext) {
 
 	const disposableCreate = vscode.commands.registerCommand(commandCreate, (uri: vscode.Uri) => {
 		try {
-			createComponentTemplate(uri, context).then((res) => {
+			createComponentTemplate(uri).then((res) => {
 				vscode.window.showInformationMessage(res);
 			});
 		} catch (e) {}
 	});
 
+  const disposableSet = vscode.commands.registerCommand(commandSet, () => {
+    try {
+      const path = vscode.workspace.workspaceFolders?.[0].uri.fsPath;
+
+      if (!path) {
+        vscode.window && vscode.window.showErrorMessage("请先打开一个工作区！");
+        return;
+      }
+      generateSettings(path).then((res) => {
+        vscode.window.showInformationMessage(res);
+      });
+    } catch (e) {}
+  });
+  
+  commandCreateSFC.forEach((command) => {
+    const disposable = vscode.commands.registerCommand(`reComponentsLib.create${command}`, (uri: vscode.Uri) => {
+      try {
+        createComponentTemplate(uri, command).then((res) => {
+          vscode.window.showInformationMessage(res);
+        });
+      } catch (e) {}
+    });
+    context.subscriptions.push(disposable);
+  });
+  
 	context.subscriptions.push(disposableCreate);
 	context.subscriptions.push(disposableDelete);
+  context.subscriptions.push(disposableSet);
 }
 
 // This method is called when your extension is deactivated
