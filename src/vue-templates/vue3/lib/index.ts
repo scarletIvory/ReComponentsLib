@@ -1,9 +1,9 @@
 /*
  * @Author: TuWenxuan
  * @Date: 2024-06-19 17:11:14
- * @LastEditors: tuwenxuan
- * @LastEditTime: 2024-06-23 18:12:53
- * @FilePath: \ReComponentsLib\src\vue-templates\vue3\lib\index.ts
+ * @LastEditors: TuWenxuan
+ * @LastEditTime: 2024-06-27 14:51:22
+ * @FilePath: /testcode1/src/vue-templates/vue3/lib/index.ts
  * @Description: 
  * 
  */
@@ -11,13 +11,29 @@ import ReTable from './ReTable';
 import ReDialog from './ReDialog';
 import ReTitleTab from './ReTitleTab';
 import ReSearchBar from './ReSearchBar';
+import ReConfirmDialog from './ReConfirmDialog';
+import ReSvgIcon from './ReSvgIcon';
+import ReBreadCrumb from './ReBreadCrumb';
+import ReMenu from './ReMenu';
+import ReFileUpload from './ReFileUpload';
+import ReText from './ReText';
+import ReHtmlView from './ReHtmlView';
 
 const Vue3Templates = [
   ...ReTable,
   ...ReDialog,
   ...ReTitleTab,
-  ...ReSearchBar
+  ...ReSearchBar,
+  ...ReConfirmDialog,
+  ...ReSvgIcon,
+  ...ReBreadCrumb,
+  ...ReMenu,
+  ...ReFileUpload,
+  ...ReText,
+  ...ReHtmlView
 ];
+
+let generateFlag = false;
 
 const getVue3TemplateByName = (name: string) => {
   switch (name) {
@@ -37,9 +53,11 @@ const getVue3TemplateByName = (name: string) => {
 export const getVue3Template = (name: string) => {
   const templates = getVue3TemplateByName(name);
   templates.forEach((item) => {
-    const sourcePath = 'components';
-    item.path = `${sourcePath}/${item.path}`;
+    if(!generateFlag) {
+      const sourcePath = 'components';
+      item.path = `${sourcePath}/${item.path}`;
+    }
   });
-
+  if(!generateFlag) {generateFlag = true;}
   return templates;
 };

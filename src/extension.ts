@@ -2,7 +2,7 @@
  * @Author: TuWenxuan
  * @Date: 2024-06-13 17:55:19
  * @LastEditors: TuWenxuan
- * @LastEditTime: 2024-06-24 18:50:58
+ * @LastEditTime: 2024-06-25 12:06:08
  * @FilePath: /testcode1/src/extension.ts
  * @Description: 
  * 
@@ -11,6 +11,7 @@ import * as vscode from "vscode";
 import { getDeleteFunctionNode } from "./handlers";
 import { createComponentTemplate } from "./vue-templates";
 import { generateSettings } from "./projectSettings";
+import { generateFunc } from "./vue-templates/generateFunc";
 
 
 
@@ -54,6 +55,10 @@ export function activate(context: vscode.ExtensionContext) {
       });
     } catch (e) {}
   });
+
+  const disposableGenerate = vscode.commands.registerCommand('reComponentsLib.generateComponent', (uri: vscode.Uri) => {
+    getDom(uri);
+  });
   
   commandCreateSFC.forEach((command) => {
     const disposable = vscode.commands.registerCommand(`reComponentsLib.create${command}`, (uri: vscode.Uri) => {
@@ -69,6 +74,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposableCreate);
 	context.subscriptions.push(disposableDelete);
   context.subscriptions.push(disposableSet);
+  context.subscriptions.push(disposableGenerate);
 }
 
 // This method is called when your extension is deactivated
@@ -102,6 +108,22 @@ function deleteFunction() {
           new vscode.Position(node.end.line - 1, node.end.column)
         )
       );
+    });
+  }
+}
+
+async function getDom(uri: vscode.Uri){
+  const editor = vscode.window.activeTextEditor;
+  if(!editor){
+    return;
+  }
+  const selection = editor.selection;
+  const text = editor.document.getText(selection);
+  const selectPath = uri.fsPath;
+  const replacedText = await generateFunc(text, selectPath);
+  if (replacedText && replacedText !== '') {
+    editor.edit((editBuilder) => {
+      editBuilder.replace(selection, replacedText);
     });
   }
 }

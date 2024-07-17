@@ -2,7 +2,7 @@
   "name": "re-components-lib",
   "displayName": "SIRe Components Lib ",
   "description": "Re Components Library for VS Code",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "publisher": "scarlet-ivory",
   "engines": {
     "vscode": "^1.90.0"
@@ -13,8 +13,7 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-  ],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -29,6 +28,10 @@
       {
         "command": "reComponentsLib.setProject",
         "title": "Set Project"
+      },
+      {
+        "command": "reComponentsLib.generateComponent",
+        "title": "Generate Component"
       },
       {
         "command": "reComponentsLib.createReTable",
@@ -71,6 +74,11 @@
       "editor/context": [
         {
           "command": "reComponentsLib.deleteFunc",
+          "when": "editorTextFocus",
+          "group": "4_execution"
+        },
+        {
+          "command": "reComponentsLib.generateComponent",
           "when": "editorTextFocus",
           "group": "4_execution"
         }
@@ -146,7 +154,9 @@
   "dependencies": {
     "@babel/parser": "^7.24.7",
     "@babel/traverse": "^7.24.7",
+    "@types/jsdom": "^21.1.7",
     "@vue/compiler-sfc": "^3.4.29",
+    "jsdom": "^24.1.0",
     "ts-node": "^10.9.2"
   }
 }
