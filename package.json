@@ -1,7 +1,7 @@
 {
-  "name": "re-components-lib",
-  "displayName": "SIRe Components Lib ",
-  "description": "Re Components Library for VS Code",
+  "name": "project-auto-set",
+  "displayName": "SIRe Project AutoSet ",
+  "description": "Project Auto Set for VS Code",
   "version": "1.0.0",
   "publisher": "scarlet-ivory",
   "engines": {
@@ -48,6 +48,10 @@
       {
         "command": "reComponentsLib.createReSearchBar",
         "title": "ReSearchBar"
+      },
+      {
+        "command": "reComponentsLib.openSettings",
+        "title": "Open Settings"
       }
     ],
     "keybindings": [
@@ -79,6 +83,11 @@
         },
         {
           "command": "reComponentsLib.generateComponent",
+          "when": "editorTextFocus",
+          "group": "4_execution"
+        },
+        {
+          "command": "reComponentsLib.openSettings",
           "when": "editorTextFocus",
           "group": "4_execution"
         }
@@ -128,7 +137,162 @@
         "id": "createComponent",
         "label": "Create Component"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "reComponentsLib Plugin Configuration",
+      "properties": {
+        "reComponentsLib.useScss": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable SCSS"
+        },
+        "reComponentsLib.scssVersion": {
+          "type": "string",
+          "default": "^1.32.8",
+          "description": "SCSS Version"
+        },
+        "reComponentsLib.useLess": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable LESS"
+        },
+        "reComponentsLib.lessVersion": {
+          "type": "string",
+          "default": "^4.1.1",
+          "description": "LESS Version"
+        },
+        "reComponentsLib.usePxToRem": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable px to rem conversion"
+        },
+        "reComponentsLib.pxToRemVersion": {
+          "type": "string",
+          "default": "^5.1.1",
+          "description": "px to rem Version"
+        },
+        "reComponentsLib.useESLint": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable ESLint"
+        },
+        "reComponentsLib.eslintPackages": {
+          "type": "object",
+          "description": "ESLint Packages",
+          "properties": {
+            "@typescript-eslint/eslint-plugin": {
+              "type": "string",
+              "default": "^7.7.1",
+              "description": "@typescript-eslint/eslint-plugin Version"
+            },
+            "@typescript-eslint/parser": {
+              "type": "string",
+              "default": "^7.7.1",
+              "description": "@typescript-eslint/parser Version"
+            },
+            "eslint": {
+              "type": "string",
+              "default": "^8.57.0",
+              "description": "ESLint Version"
+            },
+            "eslint-plugin-import": {
+              "type": "string",
+              "default": "^2.20.2",
+              "description": "eslint-plugin-import Version"
+            },
+            "eslint-plugin-node": {
+              "type": "string",
+              "default": "^11.1.0",
+              "description": "eslint-plugin-node Version"
+            },
+            "eslint-plugin-promise": {
+              "type": "string",
+              "default": "^4.2.1",
+              "description": "eslint-plugin-promise Version"
+            },
+            "eslint-plugin-standard": {
+              "type": "string",
+              "default": "^4.0.0",
+              "description": "eslint-plugin-standard Version"
+            },
+            "eslint-plugin-vue": {
+              "type": "string",
+              "default": "^9.25.0",
+              "description": "eslint-plugin-vue Version"
+            }
+          },
+          "default":{
+            "@typescript-eslint/eslint-plugin": "^7.7.1",
+            "@typescript-eslint/parser": "^7.7.1",
+            "eslint": "^8.57.0",
+            "eslint-plugin-import": "^2.20.2",
+            "eslint-plugin-node": "^11.1.0",
+            "eslint-plugin-promise": "^4.2.1",
+            "eslint-plugin-standard": "^4.0.0",
+            "eslint-plugin-vue": "^9.25.0"
+          },
+          "additionalProperties": false
+        },
+        "reComponentsLib.useStylelint": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable Stylelint"
+        },
+        "reComponentsLib.stylelintPackages": {
+          "type": "object",
+          "description": "Stylelint Packages",
+          "default": {
+            "stylelint": "^13.13.1",
+            "stylelint-config-standard": "^20.0.0",
+            "stylelint-config-recommended-vue": "^1.3.0"
+          },
+          "properties": {
+            "stylelint": {
+              "type": "string",
+              "default": "^13.13.1",
+              "description": "Stylelint Version"
+            },
+            "stylelint-config-standard": {
+              "type": "string",
+              "default": "^20.0.0",
+              "description": "stylelint-config-standard Version"
+            },
+            "stylelint-config-recommended-vue": {
+              "type": "string",
+              "default": "^1.3.0",
+              "description": "stylelint-config-recommended-vue Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        "reComponentsLib.usePinia": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable Pinia"
+        },
+        "reComponentsLib.piniaVersion": {
+          "type": "string",
+          "default": "^2.0.0",
+          "description": "Pinia Version"
+        },
+        "reComponentsLib.useElementPlus": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable Element Plus"
+        },
+        "reComponentsLib.elementPlusVersion": {
+          "type": "string",
+          "default": "^2.2.1",
+          "description": "Element Plus Version"
+        },
+        "reComponentsLib.usePnpm": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable pnpm configuration"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

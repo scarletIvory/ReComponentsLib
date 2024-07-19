@@ -2,8 +2,8 @@
  * @Author: TuWenxuan
  * @Date: 2024-06-13 17:55:19
  * @LastEditors: TuWenxuan
- * @LastEditTime: 2024-06-25 12:06:08
- * @FilePath: /testcode1/src/extension.ts
+ * @LastEditTime: 2024-07-18 14:30:40
+ * @FilePath: /src/extension.ts
  * @Description: 
  * 
  */
@@ -22,6 +22,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const commandDelete = 'reComponentsLib.deleteFunc';
 	const commandCreate = 'reComponentsLib.createComponent';
   const commandSet = 'reComponentsLib.setProject';
+  const commandSetting = 'reComponentsLib.openSettings';
   const commandCreateSFC = [
     'ReTable',
     'ReDialog',
@@ -56,6 +57,12 @@ export function activate(context: vscode.ExtensionContext) {
     } catch (e) {}
   });
 
+  const disposableSetting = vscode.commands.registerCommand(commandSetting, () => {
+    try {
+      vscode.commands.executeCommand('workbench.action.openSettings', 'reComponentsLib');
+    } catch (e) {}
+  });
+
   const disposableGenerate = vscode.commands.registerCommand('reComponentsLib.generateComponent', (uri: vscode.Uri) => {
     getDom(uri);
   });
@@ -75,6 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(disposableDelete);
   context.subscriptions.push(disposableSet);
   context.subscriptions.push(disposableGenerate);
+  context.subscriptions.push(disposableSetting);
 }
 
 // This method is called when your extension is deactivated

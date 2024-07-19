@@ -2,13 +2,14 @@
  * @Author: TuWenxuan
  * @Date: 2024-06-24 17:52:04
  * @LastEditors: TuWenxuan
- * @LastEditTime: 2024-06-24 19:01:28
- * @FilePath: /testcode1/src/projectSettings/index.ts
+ * @LastEditTime: 2024-07-19 17:18:51
+ * @FilePath: /src/projectSettings/index.ts
  * @Description: 
  * 
  */
 import vue2Setting from "./vue2Setting";
 import vue3Setting from "./vue3Setting";
+import { vue3Config, configMap } from "./vue3Package";
 import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
@@ -50,8 +51,77 @@ const createVueSettingByVersion = async (
         fs.writeFileSync(path.join(rootPath, 'vue.config.js'), vue2Setting.vueConfig);
       }
     }
+    generateDependencies(packageJson, packageJsonPath);
   } else {
     reject('Vue is not listed as a dependency in package.json');
   }
   return vueVersion;
+};
+
+const generateDependencies = (packageJson: any, packageJsonPath: string) => {
+  const config = vscode.workspace.getConfiguration('reComponentsLib');
+  console.log('Current configuration:', config);
+
+  const dependencies = packageJson.dependencies || {};
+  const devDependencies = packageJson.devDependencies || {};
+
+  if (config.usePnpm) {
+    packageJson.pnpm = vue3Config['pnpm'].pnpmConfig;
+  } else {
+    delete packageJson.pnpm;
+  }
+
+  Object.keys(configMap).forEach((configKey) => {
+    const mapItem = configMap[configKey];
+    const vue3Setting = vue3Config[mapItem.configKey];
+    if (mapItem.version) {
+      updateDependencies(config[configKey], config[mapItem.version], vue3Setting.dependencies, dependencies);
+    } else if (mapItem.packages) {
+      updateDevDependencies(config[configKey], config[mapItem.packages], vue3Setting.devDependencies, devDependencies);
+    }
+  });
+
+  packageJson.dependencies = dependencies;
+  packageJson.devDependencies = devDependencies;
+
+  try {
+    fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2));
+    console.log(`Updated ${packageJsonPath} successfully.`);
+  } catch (error) {
+    console.error(`Error writing ${packageJsonPath}:`, error);
+  }
+};
+
+
+const updateDependencies = (
+  useConfig: boolean,
+  version: string,
+  configDependencies: any,
+  dependencies: any
+) => {
+  console.log(configDependencies);
+  Object.keys(configDependencies).forEach((pkg) => {
+    console.log(pkg);
+    if (useConfig) {
+      dependencies[pkg] = version || configDependencies[pkg];
+    } else {
+      console.log(dependencies[pkg]);
+      delete dependencies[pkg];
+    }
+  });
+};
+
+const updateDevDependencies = (
+  useConfig: boolean,
+  versionConfig: any,
+  configDependencies: any,
+  devDependencies: any
+) => {
+  Object.keys(configDependencies).forEach((pkg) => {
+    if (useConfig) {
+      devDependencies[pkg] = versionConfig[pkg] || configDependencies[pkg];
+    } else {
+      delete devDependencies[pkg];
+    }
+  });
 };
